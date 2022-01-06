@@ -1,18 +1,19 @@
 import os
-from tkinter import Tk, Menu, filedialog, ttk
+from tkinter import Tk, Menu, filedialog
 from tkinter.scrolledtext import ScrolledText
 
 root = Tk()
 root.title("HexEdit")
-root.resizable(False, False)
+
+root.grid_columnconfigure(0, weight=1)
+root.grid_rowconfigure(0, weight=1)
 
 menu = Menu(root, tearoff=0)
 
 file_dialog = filedialog.Open(master=root, title="Open a File", initialdir=os.getcwd(), filetypes=[("All Files", "*.*")])
 
 text_out = ScrolledText(master=root)
-text_out.grid()
-# text_out.insert("0.0", " 00" * 16)
+text_out.grid(sticky="news")
 text_out["state"] = "disabled"
 
 def _open():
@@ -27,7 +28,6 @@ def open_file():
 
     if path:
         with open(path, "rb") as f:
-            # only open first 4 KiB for now
             content = f.read(1024 * 4)
 
         _hex = ""
@@ -39,8 +39,8 @@ def open_file():
             _hex += _next_char + " "
 
         return _hex
-    # just for testing
-    return "no file selected"
+
+    return "No File Selected."
 
 def save():
     pass
